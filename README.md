@@ -1,0 +1,1 @@
+This repository contains all the assignments and submissions completed during the NucleusTeq Apprenticeship program. Each folder is organized by assignment name, containing relevant code, documentation, and other required files.
