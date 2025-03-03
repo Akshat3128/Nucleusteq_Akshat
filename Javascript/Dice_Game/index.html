@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Akshat Saxena">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Dice Game</title>
+    <link rel="icon" href="https://img.freepik.com/free-photo/vertical-shot-beautiful-burning-flames-night_181624-41789.jpg?w=360&t=st=1718109376~exp=1718109976~hmac=c5ebab3cde2f2aae982eea636ace3f45b4222357a9b7ceba8592c673e162eba8">
+    <style>
+        body {
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            font-family: "Times New Roman", serif;
+            text-align: center;
+            color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            width: 80%;
+        }
+        .player {
+            border: 2px solid white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px white;
+            transition: transform 0.3s ease;
+        }
+        .active-player {
+            transform: scale(1.1);
+            text-shadow: 2px 2px 5px yellow;
+        }
+        .dice-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .dice {
+            width: 80px;
+            height: 80px;
+            background-size: cover;
+            background-color: white; /* Makes the dice white */
+            border-radius: 10px; /* Slight rounding for better visuals */
+            transition: transform 0.5s ease-in-out;
+        }
+        .rolling {
+            animation: rollAnimation 1s infinite;
+        }
+        @keyframes rollAnimation {
+        0% { transform: rotateX(0deg) rotateY(0deg); }
+        25% { transform: rotateX(180deg) rotateY(0deg); }
+        50% { transform: rotateX(180deg) rotateY(180deg); }
+        75% { transform: rotateX(0deg) rotateY(180deg); }
+        100% { transform: rotateX(0deg) rotateY(0deg); }
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            background: white;
+            color: black;
+            border-radius: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 15px yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="player" id="player1">
+            <h2 contenteditable="true">Player 1</h2>
+            <p>Saved Score: <span id="saved-score-1">0</span></p>
+            <p>Current Score: <span id="current-score-1">0</span></p>
+        </div>
+        <div class="dice-container">
+            <div id="dice" class="dice"></div>
+            <audio id="dice-sound" src="dice.mp3"></audio>
+            <button id="roll">Roll Dice</button>
+            <button id="save">Save Score</button>
+            <button id="reset">Reset Game</button>
+            <p id="winner"></p>
+        </div>
+        <div class="player" id="player2">
+            <h2 contenteditable="true">Player 2</h2>
+            <p>Saved Score: <span id="saved-score-2">0</span></p>
+            <p>Current Score: <span id="current-score-2">0</span></p>
+        </div>
+    </div>
+    <script>
+        let currentPlayer = 1;
+        let currentScore = 0;
+        let savedScores = {1: 0, 2: 0};
+        
+        const dice = document.getElementById('dice');
+        const rollBtn = document.getElementById('roll');
+        const saveBtn = document.getElementById('save');
+        const resetBtn = document.getElementById('reset');
+        const diceSound = document.getElementById('dice-sound');
+        const winnerText = document.getElementById('winner');
+        
+        function updateActivePlayer() {
+            document.querySelectorAll('.player').forEach(player => player.classList.remove('active-player'));
+            document.getElementById(`player${currentPlayer}`).classList.add('active-player');
+        }
+        
+        function switchTurn() {
+            currentScore = 0;
+            document.getElementById(`current-score-${currentPlayer}`).textContent = currentScore;
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            updateActivePlayer();
+        }
+        
+diceSound.volume = 0; // Mute sound
+diceSound.play().then(() => {
+    diceSound.pause();
+    diceSound.currentTime = 0;
+    diceSound.volume = 1; // Restore volume
+}).catch(error => console.log("Audio autoplay prevented, will play on user interaction."));
+
+
+// Roll button event listener
+rollBtn.addEventListener('click', () => {
+    diceSound.currentTime = 0; 
+    diceSound.play();
+    
+    dice.classList.add('rolling');
+    setTimeout(() => {
+        const diceRoll = Math.floor(Math.random() * 6) + 1;
+        dice.className = `dice dice-${diceRoll}`;
+        dice.style.backgroundImage = `url('images/dice${diceRoll}.svg')`;
+        dice.classList.remove('rolling');
+        
+        if (diceRoll === 1) {
+            switchTurn();
+        } else {
+            currentScore += diceRoll;
+            document.getElementById(`current-score-${currentPlayer}`).textContent = currentScore;
+        }
+    }, 1000);
+});
+        
+        saveBtn.addEventListener('click', () => {
+            savedScores[currentPlayer] += currentScore;
+            document.getElementById(`saved-score-${currentPlayer}`).textContent = savedScores[currentPlayer];
+            
+            if (savedScores[currentPlayer] >= 100) {
+                winnerText.textContent = `${document.getElementById(`player${currentPlayer}`).querySelector('h2').textContent} Wins!`;
+                rollBtn.disabled = true;
+                saveBtn.disabled = true;
+                return;
+            }
+            switchTurn();
+        });
+        
+        resetBtn.addEventListener('click', () => {
+            currentScore = 0;
+            savedScores = {1: 0, 2: 0};
+            currentPlayer = 1;
+            document.getElementById('saved-score-1').textContent = '0';
+            document.getElementById('saved-score-2').textContent = '0';
+            document.getElementById('current-score-1').textContent = '0';
+            document.getElementById('current-score-2').textContent = '0';
+            winnerText.textContent = '';
+            rollBtn.disabled = false;
+            saveBtn.disabled = false;
+            updateActivePlayer();
+        });
+        
+        updateActivePlayer();
+    </script>
+</body>
+</html>
