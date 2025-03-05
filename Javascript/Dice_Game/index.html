@@ -223,7 +223,7 @@ rollBtn.addEventListener('click', () => {
             savedScores[currentPlayer] += currentScore;
             document.getElementById(`saved-score-${currentPlayer}`).textContent = savedScores[currentPlayer];
             
-            if (savedScores[currentPlayer] >= 10) {
+            if (savedScores[currentPlayer] >= 100) {
                 winnerText.textContent = `${document.getElementById(`player${currentPlayer}`).querySelector('h2').textContent} Wins!`;
                 winnerText.style.animation = 'winnerScale 1s ease-in-out forwards';
                 rollBtn.disabled = true;
