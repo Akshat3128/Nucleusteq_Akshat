@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="author" content="Akshat Saxena">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Dice Game</title>
     <link rel="icon" href="https://img.freepik.com/free-photo/vertical-shot-beautiful-burning-flames-night_181624-41789.jpg?w=360&t=st=1718109376~exp=1718109976~hmac=c5ebab3cde2f2aae982eea636ace3f45b4222357a9b7ceba8592c673e162eba8">
+    
+    <!-- css styling -->
     <style>
         body {
             background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
@@ -23,7 +24,7 @@
             font-size: 1.6rem;
             transition: background 0.5s ease-in-out;
         }
-        .wrapper{
+        .game-window{
             background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
             font-family: "Times New Roman", serif;
             text-align: center;
@@ -118,6 +119,36 @@
             background: #ffeb3b;
         }
 
+        .popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: black;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 2rem yellow;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-size: 1.6rem;
+        }
+        .popup input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            width: 80%;
+            margin: 0.5rem auto;
+        }
+        .popup button {
+            background: black;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .game-container {
                 flex-direction: column;
@@ -137,42 +168,63 @@
                 gap: 1rem;
             }
             .dice-container {
-                width: 2rem;
-                height: 2rem;
+                width: 1rem;
+                height: auto;
+            }
+            .player{
+                font-size: 1rem;
+                height: auto;
+                width: auto;
             }
             #winner{
                 font-size: 1.5rem;
             }
         }
     </style>
+
 </head>
+
 <body>
+    
+    <!-- main wrapper for better code readibility -->
     <div class="wrapper">
-        <div class="game-title">Dice Game</div>
-        <div class="game-container">
-            <div class="player" id="player1">
-                <h2 contenteditable="true">Player 1</h2>
-                <p>Saved Score: <span id="saved-score-1">0</span></p>
-                <p>Current Score: <span id="current-score-1">0</span></p>
-            </div>
-            <div class="dice-container">
-                <div id="dice" class="dice"></div>
-                <audio id="dice-sound" src="dice.mp3"></audio>
-                <button id="roll">Roll Dice</button>
-                <button id="save">Save Score</button>
-                <button id="reset">Reset Game</button>
-                
-            </div>
-            <div class="player" id="player2">
-                <h2 contenteditable="true">Player 2</h2>
-                <p>Saved Score: <span id="saved-score-2">0</span></p>
-                <p>Current Score: <span id="current-score-2">0</span></p>
-            </div>
-            
+        <!-- popup for player Name   -->
+        <div class="popup" id="name-popup">
+            <h2>Enter Player Names</h2>
+            <input type="text" id="player1-name" placeholder="Player 1 Name" required>
+            <input type="text" id="player2-name" placeholder="Player 2 Name" required>
+            <button onclick="startGame()">Start Game</button>
         </div>
-        <div><p id="winner"></p></div>
+        <!-- main game wrapper -->
+        <div class="game-window hidden">
+            <div class="game-title">
+                Dice Game
+            </div>
+            <div class="game-container">
+                <div class="player" id="player1">
+                    <h2 id="player1-display">Player 1</h2>
+                    <p>Saved Score: <span id="saved-score-1">0</span></p>
+                    <p>Current Score: <span id="current-score-1">0</span></p>
+                </div>
+                <div class="dice-container">
+                    <div id="dice" class="dice"></div>
+                    <audio id="dice-sound" src="dice.mp3"></audio>
+                    <button id="roll">Roll Dice</button>
+                    <button id="save">Save Score</button>
+                    <button id="reset">Reset Game</button>
+                    
+                </div>
+                <div class="player" id="player2">
+                    <h2 id="player2-display">Player 2</h2>
+                    <p>Saved Score: <span id="saved-score-2">0</span></p>
+                    <p>Current Score: <span id="current-score-2">0</span></p>
+                </div>
+            </div>
+            <div><p id="winner"></p></div>
+        </div>
     </div>
     
+    <!-- js script for functionality and dom manipulation -->
     <script>
         let currentPlayer = 1;
         let currentScore = 0;
@@ -198,26 +250,26 @@
         }
         
 
-// Roll button event listener
-rollBtn.addEventListener('click', () => {
-    diceSound.currentTime = 0; 
-    diceSound.play();
-    
-    dice.classList.add('rolling');
-    setTimeout(() => {
-        const diceRoll = Math.floor(Math.random() * 6) + 1;
-        dice.className = `dice dice-${diceRoll}`;
-        dice.style.backgroundImage = `url('images/dice${diceRoll}.svg')`;
-        dice.classList.remove('rolling');
+    // Roll button event listener
+    rollBtn.addEventListener('click', () => {
+        diceSound.currentTime = 0; 
+        diceSound.play();
         
-        if (diceRoll === 1) {
-            switchTurn();
-        } else {
-            currentScore += diceRoll;
-            document.getElementById(`current-score-${currentPlayer}`).textContent = currentScore;
-        }
-    }, 1000);
-});
+        dice.classList.add('rolling');
+        setTimeout(() => {
+            const diceRoll = Math.floor(Math.random() * 6) + 1;
+            dice.className = `dice dice-${diceRoll}`;
+            dice.style.backgroundImage = `url('images/dice${diceRoll}.svg')`;
+            dice.classList.remove('rolling');
+            
+            if (diceRoll === 1) {
+                switchTurn();
+            } else {
+                currentScore += diceRoll;
+                document.getElementById(`current-score-${currentPlayer}`).textContent = currentScore;
+            }
+        }, 1000);
+    });
         
         saveBtn.addEventListener('click', () => {
             savedScores[currentPlayer] += currentScore;
@@ -246,7 +298,13 @@ rollBtn.addEventListener('click', () => {
             saveBtn.disabled = false;
             updateActivePlayer();
         });
+        function startGame() {
+            document.getElementById('player1-display').textContent = document.getElementById('player1-name').value || "Player 1";
+            document.getElementById('player2-display').textContent = document.getElementById('player2-name').value || "Player 2";
+            document.getElementById('name-popup').classList.add('hidden');
+            document.querySelector('.game-window').classList.remove('hidden');
 
+        }
         updateActivePlayer();
     </script>
 </body>
