@@ -64,22 +64,50 @@
             text-shadow: 0.2rem 0.2rem 0.5rem yellow;
         }
         .dice-container {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1.5rem;
+            perspective: 30rem;
             transition: all 0.3s ease-in-out;
         }
         .dice {
             width: 5rem;
             height: 5rem;
+            top: 0%;
             background-size: cover;
             background-color: white;
+            /* overflow: hidden; */
             border-radius: 0.5rem;
+            position: relative;
+            transform-style: preserve-3d;
             transition: transform 0.5s ease-in-out;
         }
+        .face {
+            position: absolute;
+            width: 5rem;
+            height: 5rem;
+            background: linear-gradient(to bottom, #FFD700, #FFC107);
+            border: 0.2rem solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 0.5rem;
+        }
+
+        /* Positioning the faces of the cube ~made by Akshat Saxena*/
+        .front  { transform: translateZ(2.5rem); }
+        .back   { transform: rotateY(180deg) translateZ(2.5rem); }
+        .right  { transform: rotateY(90deg) translateZ(2.5rem); }
+        .left   { transform: rotateY(-90deg) translateZ(2.5rem); }
+        .top    { transform: rotateX(90deg) translateZ(2.5rem); }
+        .bottom { transform: rotateX(-90deg) translateZ(2.5rem); }
+
         .rolling {
-            animation: rollAnimation 1s infinite;
+            animation: rollAnim 1s linear infinite;
         }
         @keyframes rollAnimation {
             0% { transform: rotateX(0deg) rotateY(0deg); }
@@ -162,15 +190,35 @@
                 font-size: 2.5rem;
             }
         }
-        @media (max-width: 380px) {
+        @media (max-width: 770px) {
             .game-container {
                 flex-direction: column;
                 gap: 1rem;
             }
             .dice-container {
-                width: 1rem;
+                width: 4rem; 
                 height: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
+            .dice {
+                width: 3rem; 
+                height: 3rem;
+            }
+            .face {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.2rem;
+            }
+
+            .front  { transform: translateZ(1.5rem); }
+            .back   { transform: rotateY(180deg) translateZ(1.5rem); }
+            .right  { transform: rotateY(90deg) translateZ(1.5rem); }
+            .left   { transform: rotateY(-90deg) translateZ(1.5rem); }
+            .top    { transform: rotateX(90deg) translateZ(1.5rem); }
+            .bottom { transform: rotateX(-90deg) translateZ(1.5rem); }
+            
             .player{
                 font-size: 1rem;
                 height: auto;
@@ -207,7 +255,14 @@
                     <p>Current Score: <span id="current-score-1">0</span></p>
                 </div>
                 <div class="dice-container">
-                    <div id="dice" class="dice"></div>
+                    <div class="dice" id="dice">
+                        <div class="face front">1</div>
+                        <div class="face back">2</div>
+                        <div class="face right">3</div>
+                        <div class="face left">4</div>
+                        <div class="face top">5</div>
+                        <div class="face bottom">6</div>
+                    </div>
                     <audio id="dice-sound" src="dice.mp3"></audio>
                     <button id="roll">Roll Dice</button>
                     <button id="save">Save Score</button>
@@ -250,26 +305,65 @@
         }
         
 
-    // Roll button event listener
-    rollBtn.addEventListener('click', () => {
-        diceSound.currentTime = 0; 
-        diceSound.play();
+    // Roll button event listener when using images as dice
+    // rollBtn.addEventListener('click', () => {
+    //     diceSound.currentTime = 0; 
+    //     diceSound.play();
         
-        dice.classList.add('rolling');
-        setTimeout(() => {
-            const diceRoll = Math.floor(Math.random() * 6) + 1;
-            dice.className = `dice dice-${diceRoll}`;
-            dice.style.backgroundImage = `url('images/dice${diceRoll}.svg')`;
-            dice.classList.remove('rolling');
+    //     dice.classList.add('rolling');
+    //     setTimeout(() => {
+    //         const diceRoll = Math.floor(Math.random() * 6) + 1;
+    //         dice.className = `dice dice-${diceRoll}`;
+    //         dice.style.backgroundImage = `url('images/dice${diceRoll}.svg')`;
+    //         dice.classList.remove('rolling');
             
-            if (diceRoll === 1) {
-                switchTurn();
-            } else {
-                currentScore += diceRoll;
-                document.getElementById(`current-score-${currentPlayer}`).textContent = currentScore;
-            }
-        }, 1000);
-    });
+    //         if (diceRoll === 1) {
+    //             switchTurn();
+    //         } else {
+    //             currentScore += diceRoll;
+    //             document.getElementById(`current-score-${currentPlayer}`).textContent = currentScore;
+    //         }
+    //     }, 1000);
+    // });
+
+    //event listener for roll button when using a animated dice roll
+    rollBtn.addEventListener('click', () => {
+            diceSound.currentTime = 0; 
+            diceSound.play();
+
+            dice.classList.add('rolling');
+
+            setTimeout(() => {
+                const diceRoll = Math.floor(Math.random() * 6) + 1;
+                
+                // Assigning rotation
+                let xRotation = 720; 
+                let yRotation = 720;
+
+                switch (diceRoll) {
+                    case 1: xRotation += 0; yRotation += 0; break;
+                    case 2: xRotation += 0; yRotation += 180; break;
+                    case 3: xRotation += 0; yRotation += 90; break;
+                    case 4: xRotation += 0; yRotation -= 90; break;
+                    case 5: xRotation -= 90; yRotation += 0; break;
+                    case 6: xRotation += 90; yRotation += 0; break;
+                }
+
+                dice.style.transform = `rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+                dice.classList.remove('rolling');
+
+                // Updating the score or switching turn ~ made by Akshat Saxena
+                if (diceRoll === 1) {
+                    switchTurn();
+                } else {
+                    currentScore += diceRoll;
+                    document.getElementById(`current-score-${currentPlayer}`).textContent = currentScore;
+                }
+
+                document.getElementById("current-roll").innerText = diceRoll;
+                container.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 500);
+        });
         
         saveBtn.addEventListener('click', () => {
             savedScores[currentPlayer] += currentScore;
