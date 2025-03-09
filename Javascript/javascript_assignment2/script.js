@@ -3,48 +3,43 @@ let score = 0;
 let questions = [];
 let timer;
 const timeLimit = 15;
-let answered = false; // Prevents multiple answer changes
+let answered = false; 
 
 // Start the game
 async function startGame() {
-    let category = document.getElementById("category").value;
-    let difficulty = document.getElementById("difficulty").value;
+    const category = document.getElementById("category").value;
+    const difficulty = document.getElementById("difficulty").value;
 
     questions = await fetchQuestions(category, difficulty);
     
-    if (questions.length > 0) {
+    if (questions.length) {
         score = 0;
         currentQuestionIndex = 0;
         answered = false;
 
-        document.getElementById("start-screen").classList.add("hidden");
-        document.getElementById("quiz-screen").classList.remove("hidden");
-
+        toggleScreens("start-screen", "quiz-screen");
         showQuestion();
     } else {
-        alert("Failed to fetch questions. Please wait and try again.");
+        alert("Failed to fetch questions. Please try again later.");
     }
 }
 
-// Fetch questions with async/await and retry mechanism
+// Fetch questions with retry mechanism
 async function fetchQuestions(category, difficulty, retryCount = 0) {
-    let amount = 20;
-    const url = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`;
+    const url = `https://opentdb.com/api.php?amount=20&category=${category}&difficulty=${difficulty}&type=multiple`;
 
     try {
-        let response = await fetch(url);
+        const response = await fetch(url);
 
         if (response.status === 429 && retryCount < 3) { // Too Many Requests
-            console.warn(`API rate limited. Retrying in 3 seconds... (Attempt ${retryCount + 1})`);
+            console.warn(`Rate limited. Retrying in 3s... (Attempt ${retryCount + 1})`);
             await new Promise(resolve => setTimeout(resolve, 3000));
-            return await fetchQuestions(category, difficulty, retryCount + 1);
+            return fetchQuestions(category, difficulty, retryCount + 1);
         }
 
-        if (!response.ok) {
-            throw new Error(`HTTP Error: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
-        let data = await response.json();
+        const data = await response.json();
         return data.results || [];
     } catch (error) {
         console.error("Error fetching questions:", error);
@@ -55,29 +50,26 @@ async function fetchQuestions(category, difficulty, retryCount = 0) {
 // Display the current question
 function showQuestion() {
     clearInterval(timer);
-    if (currentQuestionIndex >= questions.length) {
-        endGame();
-        return;
-    }
+    if (currentQuestionIndex >= questions.length) return endGame();
 
-    answered = false; // Reset answer state for new question
+    answered = false; 
 
-    let questionData = questions[currentQuestionIndex];
-    let questionText = document.getElementById("question-text");
-    let optionsContainer = document.getElementById("options");
-    let feedback = document.getElementById("feedback");
+    const { question, correct_answer, incorrect_answers } = questions[currentQuestionIndex];
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
 
-    questionText.innerHTML = questionData.question;
-    optionsContainer.innerHTML = "";
+    questionText.innerHTML = question;
     feedback.innerHTML = "";
+    optionsContainer.innerHTML = "";
 
-    let answers = [...questionData.incorrect_answers, questionData.correct_answer];
-    answers.sort(() => Math.random() - 0.5); // Shuffle answers
+    const answers = shuffle([...incorrect_answers, correct_answer]);
 
     answers.forEach(answer => {
-        let button = document.createElement("button");
+        const button = document.createElement("button");
         button.innerHTML = answer;
-        button.onclick = () => checkAnswer(button, answer, questionData.correct_answer);
+        button.classList.add("option-btn");
+        button.onclick = () => checkAnswer(button, answer, correct_answer);
         optionsContainer.appendChild(button);
     });
 
@@ -87,26 +79,26 @@ function showQuestion() {
 // Timer function
 function startTimer() {
     let timeLeft = timeLimit;
-    document.getElementById("time-left").innerText = `Time left: ${timeLeft}`;
+    const timerDisplay = document.getElementById("time-left");
 
+    timerDisplay.innerText = `Time left: ${timeLeft}`;
     timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById("time-left").innerText = `Time left: ${timeLeft}`;
-
-        if (timeLeft <= 0) {
+        if (--timeLeft <= 0) {
             clearInterval(timer);
             showCorrectAnswer();
         }
+        timerDisplay.innerText = `Time left: ${timeLeft}`;
     }, 1000);
 }
 
-// Check answer and prevent changing it
+// Check answer
 function checkAnswer(button, selectedAnswer, correctAnswer) {
-    if (answered) return; // Prevent multiple changes
+    if (answered) return;
     answered = true;
     clearInterval(timer);
 
-    let feedback = document.getElementById("feedback");
+    const feedback = document.getElementById("feedback");
+    const allButtons = document.querySelectorAll("#options button");
 
     if (selectedAnswer === correctAnswer) {
         score++;
@@ -119,45 +111,51 @@ function checkAnswer(button, selectedAnswer, correctAnswer) {
         button.classList.add("wrong");
     }
 
-    // Disable all options after selection
-    document.querySelectorAll("#options button").forEach(btn => btn.disabled = true);
+    allButtons.forEach(btn => (btn.disabled = true));
 
-    setTimeout(() => {
-        currentQuestionIndex++;
-        showQuestion();
-    }, 500);
+    setTimeout(nextQuestion, 500);
 }
 
 // Show correct answer if time runs out
 function showCorrectAnswer() {
-    let questionData = questions[currentQuestionIndex];
-    let feedback = document.getElementById("feedback");
+    const questionData = questions[currentQuestionIndex];
+    const feedback = document.getElementById("feedback");
 
     feedback.innerHTML = `Time's up! The correct answer was: ${questionData.correct_answer}. Score: ${score}`;
     feedback.style.color = "red";
 
     document.querySelectorAll("#options button").forEach(btn => {
-        if (btn.innerHTML === questionData.correct_answer) {
-            btn.classList.add("correct");
-        }
+        if (btn.innerHTML === questionData.correct_answer) btn.classList.add("correct");
         btn.disabled = true;
     });
 
-    setTimeout(() => {
-        currentQuestionIndex++;
-        showQuestion();
-    }, 1000);
+    setTimeout(nextQuestion, 1000);
+}
+
+// Move to the next question
+function nextQuestion() {
+    currentQuestionIndex++;
+    showQuestion();
 }
 
 // End the game
 function endGame() {
-    document.getElementById("quiz-screen").classList.add("hidden");
-    document.getElementById("end-screen").classList.remove("hidden");
+    toggleScreens("quiz-screen", "end-screen");
     document.getElementById("final-score").innerText = `Your final score: ${score}/${questions.length}`;
 }
 
 // Restart game
 function restartGame() {
-    document.getElementById("end-screen").classList.add("hidden");
-    document.getElementById("start-screen").classList.remove("hidden");
+    toggleScreens("end-screen", "start-screen");
+}
+
+// Utility function to shuffle array
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+// Utility function to toggle screens
+function toggleScreens(hide, show) {
+    document.getElementById(hide).classList.add("hidden");
+    document.getElementById(show).classList.remove("hidden");
 }
