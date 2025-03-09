@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Akshat Saxena">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <!-- Start Screen -->
+        <section id="start-screen">
+            <h1>Welcome to the Quiz Game</h1>
+            
+            <label for="category">Select Category:</label>
+            <select id="category">
+                <option value="9">General Knowledge</option>
+                <option value="18">Science: Computers</option>
+                <option value="21">Sports</option>
+                <option value="23">History</option>
+                <option value="11">Entertainment: Film</option>
+            </select>
+    
+            <label for="difficulty">Select Difficulty:</label>
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+    
+            <button id="start-btn" onclick="startGame()">Start Quiz</button>
+        </section>
+    
+        <!-- Quiz Screen -->
+        <section id="quiz-screen" class="hidden">
+            <h2 id="question-text"></h2>
+            <div id="options" class="options-container"></div>
+            <p id="time-left">Time left: <span>15</span> seconds</p>
+            <p id="feedback" aria-live="polite"></p>
+        </section>
+    
+        <!-- End Screen -->
+        <section id="end-screen" class="hidden">
+            <h2 id="final-score"></h2>
+            <button id="restart-btn" onclick="restartGame()">Play Again</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
