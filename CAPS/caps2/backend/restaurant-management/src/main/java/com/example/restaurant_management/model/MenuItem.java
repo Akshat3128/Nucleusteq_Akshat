@@ -1,12 +1,20 @@
 package com.example.restaurant_management.model;
 
 import jakarta.persistence.*;
-import java.util.List;
+
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashSet;
+
+// import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "menu_items")
 public class MenuItem {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +33,7 @@ public class MenuItem {
 
     @ManyToMany(mappedBy = "menuItems", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Restaurant> restaurants;
+    private Set<Restaurant> restaurants = new HashSet<>();
 
     public MenuItem() {}
 
@@ -36,40 +44,21 @@ public class MenuItem {
         this.available = true;
     }
 
-    public Long getId() { 
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getName() {
-        return name; 
-    }
-    public void setName(String name) { 
-        this.name = name; 
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public double getPrice() { 
-        return price; 
-    }
-    public void setPrice(double price) { 
-        this.price = price; 
-    }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
     public String getCategory() { return category; }
-    public void setCategory(String category) { 
-        this.category = category; 
-    }
+    public void setCategory(String category) { this.category = category; }
 
     public boolean isAvailable() { return available; }
-    public void setAvailable(boolean available){ 
-        this.available = available; 
-    }
-    public List<Restaurant> getRestaurants() { 
-        return restaurants; 
-    }
-    public void setRestaurants(List<Restaurant> restaurants) { 
-        this.restaurants = restaurants; 
-    }
+    public void setAvailable(boolean available) { this.available = available; }
+
+    public Set<Restaurant> getRestaurants() { return restaurants; }
+    public void setRestaurants(Set<Restaurant> restaurants) { this.restaurants = restaurants; }
 }

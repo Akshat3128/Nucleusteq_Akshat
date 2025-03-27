@@ -18,7 +18,7 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
-    // Created a new restaurant (Only RESTAURANT_OWNER can create & only one per owner)
+    // Create a new restaurant (Only one per owner)
     @PostMapping("/create")
     public ResponseEntity<?> createRestaurant(@RequestBody Map<String, String> request) {
         try {
@@ -35,13 +35,13 @@ public class RestaurantController {
         }
     }
 
-    // Get all restaurants
+    //  Get all restaurants
     @GetMapping("/all")
     public ResponseEntity<List<Restaurant>> getAllRestaurants() {
         return ResponseEntity.ok(restaurantService.getAllRestaurants());
     }
 
-    // Get a specific restaurant by ID
+    //  Get a specific restaurant by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getRestaurantById(@PathVariable Long id) {
         try {
@@ -68,7 +68,7 @@ public class RestaurantController {
         }
     }
 
-    // Soft delete a restaurant (Mark as inactive instead of deleting--demo phased to be confirmed after meet)
+    //  Soft delete (Deactivate restaurant)
     @DeleteMapping("/{id}/deactivate")
     public ResponseEntity<?> deactivateRestaurant(@PathVariable Long id, @RequestBody Map<String, String> request) {
         try {
@@ -80,6 +80,51 @@ public class RestaurantController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", "Unexpected error occurred: " + e.getMessage()));
+        }
+    }
+
+    //  Add menu item to a restaurant (Only owner can add)
+    @PostMapping("/{restaurantId}/add-menu-item/{menuItemId}")
+    public ResponseEntity<?> addMenuItemToRestaurant(
+            @PathVariable Long restaurantId,
+            @PathVariable Long menuItemId,
+            @RequestBody Map<String, Object> request) {  
+        try {
+            
+            Long userId = ((Number) request.get("userId")).longValue(); 
+            Restaurant updatedRestaurant = restaurantService
+                                    .addMenuItem(restaurantId, menuItemId, userId);
+            return ResponseEntity
+                .ok(Map.of("message", "Menu item added successfully!",          "restaurant", updatedRestaurant));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Unexpected error occurred: " + e.getMessage()));
+        }
+    }
+
+
+    //  Remove menu item from a restaurant (Only owner can remove)
+    @DeleteMapping("/{restaurantId}/remove-menu-item/{menuItemId}")
+    public ResponseEntity<?> removeMenuItemFromRestaurant(@PathVariable Long restaurantId, @PathVariable Long menuItemId, @RequestBody Map<String, String> request) {
+        try {
+            Long userId = Long.parseLong(request.get("userId"));
+            restaurantService.removeMenuItem(restaurantId, menuItemId, userId);
+            return ResponseEntity.ok(Map.of("message", "Menu item removed successfully!"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "Unexpected error occurred: " + e.getMessage()));
+        }
+    }
+
+    //  Get all menu items of a restaurant
+    @GetMapping("/{restaurantId}/menu-items")
+    public ResponseEntity<?> getMenuItems(@PathVariable Long restaurantId) {
+        try {
+            return ResponseEntity.ok(restaurantService.getMenuItems(restaurantId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
         }
     }
 

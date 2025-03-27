@@ -2,9 +2,14 @@ package com.example.restaurant_management.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import java.util.ArrayList;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
@@ -17,12 +22,13 @@ public class Restaurant {
     @Column(nullable = false, unique = true)
     private String name;
 
+    // ✅ A single owner can have only one restaurant
     @OneToOne
     @JoinColumn(name = "user_id", unique = true, nullable = false)
-    @JsonBackReference  // Prevents infinite recursion with User
+    @JsonBackReference
     private User owner;
 
-
+    // ✅ Many-to-Many relationship with MenuItem
     @ManyToMany
     @JoinTable(
         name = "restaurant_menu_items",
@@ -30,32 +36,32 @@ public class Restaurant {
         inverseJoinColumns = @JoinColumn(name = "menu_item_id")
     )
     @JsonIgnore
-    private List<MenuItem> menuItems = new ArrayList<>();
+    private Set<MenuItem> menuItems = new HashSet<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    // ✅ One-to-Many relationship with Orders
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
     @Column(nullable = false)
-    private boolean active = true;  // ✅ Soft delete support
+    private boolean active = true;
 
-    //  Default Constructor
+    // ✅ Constructors
     public Restaurant() {
-        this.menuItems = new ArrayList<>();
+        this.menuItems = new HashSet<>();
         this.orders = new ArrayList<>();
         this.active = true;
     }
 
-    //  Constructor with parameters
     public Restaurant(String name, User owner) {
         this.name = name;
         this.owner = owner;
-        this.menuItems = new ArrayList<>();
+        this.menuItems = new HashSet<>();
         this.orders = new ArrayList<>();
         this.active = true;
     }
 
-    //  Getters and Setters
+    // ✅ Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -65,18 +71,26 @@ public class Restaurant {
     public User getOwner() { return owner; }
     public void setOwner(User owner) { this.owner = owner; }
 
-    public List<MenuItem> getMenuItems() { return menuItems; }
-    public void setMenuItems(List<MenuItem> menuItems) { this.menuItems = menuItems; }
+    public Set<MenuItem> getMenuItems() { return menuItems; }
+    public void setMenuItems(Set<MenuItem> menuItems) { this.menuItems = menuItems; }
 
     public List<Order> getOrders() { return orders; }
     public void setOrders(List<Order> orders) { this.orders = orders; }
 
     public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; } 
+    public void setActive(boolean active) { this.active = active; }
 
-    
+    // ✅ Utility Methods
+    public void addMenuItem(MenuItem menuItem) {
+        this.menuItems.add(menuItem);
+    }
+
+    public void removeMenuItem(MenuItem menuItem) {
+        this.menuItems.remove(menuItem);
+    }
+
     @Override
     public String toString() {
-        return "Restaurant{id=" + id + ", name='" + name + "', owner=" + owner.getEmail() + ", active=" + active + "}";
+        return "Restaurant{id=" + id + ", name='" + name + "', owner=" + (owner != null ? owner.getEmail() : "null") + ", active=" + active + "}";
     }
 }
