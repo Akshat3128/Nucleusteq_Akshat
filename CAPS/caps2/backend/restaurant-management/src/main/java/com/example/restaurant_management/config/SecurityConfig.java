@@ -25,9 +25,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No session state
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // 🔥 Allow all requests without authentication
+                .anyRequest().permitAll() // Allow all requests without authentication
             )
-            .httpBasic(httpBasic -> httpBasic.disable()); // Disable Basic Authentication
+            .httpBasic(httpBasic -> httpBasic.disable()); 
 
         return http.build();
     }

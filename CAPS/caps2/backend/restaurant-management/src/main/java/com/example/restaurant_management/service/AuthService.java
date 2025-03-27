@@ -19,7 +19,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // 🔹 Register a new user
+    // Register a new user
     public User registerUser(String email, String password, String role) {
         // Checking if email is already registered
         if (userRepository.findByEmail(email).isPresent()) {

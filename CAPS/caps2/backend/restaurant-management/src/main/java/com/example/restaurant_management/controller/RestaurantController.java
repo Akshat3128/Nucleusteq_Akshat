@@ -68,11 +68,11 @@ public class RestaurantController {
         }
     }
 
-    // Soft delete a restaurant (Mark as inactive instead of deleting)
+    // Soft delete a restaurant (Mark as inactive instead of deleting--demo phased to be confirmed after meet)
     @DeleteMapping("/{id}/deactivate")
     public ResponseEntity<?> deactivateRestaurant(@PathVariable Long id, @RequestBody Map<String, String> request) {
         try {
-            Long userId = Long.parseLong(request.get("userId"));  // Extract user ID
+            Long userId = Long.parseLong(request.get("userId")); 
             restaurantService.deactivateRestaurant(id, userId);
             return ResponseEntity.ok(Map.of("message", "Restaurant deactivated successfully!"));
 

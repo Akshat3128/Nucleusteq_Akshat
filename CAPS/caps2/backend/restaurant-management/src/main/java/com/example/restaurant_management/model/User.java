@@ -23,8 +23,8 @@ public class User {
     private Role role;
 
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
-    @JsonIgnore  // 🔹 Prevents infinite recursion
-    private Restaurant ownedRestaurant;  //  New field to track ownership
+    @JsonIgnore  // Prevents infinite recursion
+    private Restaurant ownedRestaurant;  
 
     public User() {}
 

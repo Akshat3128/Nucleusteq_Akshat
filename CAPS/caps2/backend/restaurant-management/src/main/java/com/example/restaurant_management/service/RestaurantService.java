@@ -8,7 +8,7 @@ import com.example.restaurant_management.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-// import java.util.Optional;
+
 
 @Service
 public class RestaurantService {
@@ -21,7 +21,7 @@ public class RestaurantService {
         this.userRepository = userRepository;
     }
 
-    // ✅ Create a restaurant (Only users with RESTAURANT_OWNER role can create)
+    // Create a restaurant (Only users with RESTAURANT_OWNER role can create)
     public Restaurant createRestaurant(String name, Long userId) {
         try {
             User user = userRepository.findById(userId)
@@ -31,7 +31,7 @@ public class RestaurantService {
                 throw new RuntimeException("Only users with RESTAURANT_OWNER role can create a restaurant.");
             }
 
-            // ✅ Ensure a user doesn't create multiple restaurants
+            // Making sure that a user doesn't create multiple restaurants
             if (restaurantRepository.findByOwner(user).isPresent()) {
                 throw new RuntimeException("User already owns a restaurant.");
             }
@@ -43,18 +43,18 @@ public class RestaurantService {
         }
     }
 
-    // ✅ Get all restaurants
+    // Get all restaurants
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
     }
 
-    // ✅ Get a specific restaurant by ID
+    //  Get a specific restaurant by ID
     public Restaurant getRestaurantById(Long id) {
         return restaurantRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurant with ID " + id + " not found."));
     }
 
-    // ✅ Update restaurant name (Only the assigned restaurant owner can update)
+    // Update restaurant name (Only the assigned restaurant owner can update)
     public Restaurant updateRestaurant(Long id, String newName, Long userId) {
         try {
             Restaurant restaurant = getRestaurantById(id);
@@ -70,7 +70,7 @@ public class RestaurantService {
         }
     }
 
-    // ✅ Soft delete a restaurant (Mark as inactive instead of deleting)
+    //  Soft delete a restaurant (Mark as inactive instead of deleting)
     public void deactivateRestaurant(Long id, Long userId) {
         try {
             Restaurant restaurant = getRestaurantById(id);

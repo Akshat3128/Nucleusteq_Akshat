@@ -15,20 +15,19 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    // 🔹 Place a new order for a customer
+    // Place a new order for a customer
     public Order placeOrder(User customer, Restaurant restaurant, List<MenuItem> items) {
-        //  Ensure the customer has no pending orders
+        //  checking if the customer has any pending orders
         boolean hasPending = orderRepository.hasPendingOrders(customer.getId(), OrderStatus.DELIVERED, OrderStatus.CANCELLED);
         if (hasPending) {
             throw new RuntimeException("You cannot place a new order until the previous order is delivered or canceled.");
         }
 
-        // Create and save the new order
         Order newOrder = new Order(customer, restaurant, OrderStatus.PENDING);
         return orderRepository.save(newOrder);
     }
 
-    // 🔹 Mark an order as delivered
+    //  Mark an order as delivered
     public Order markOrderAsDelivered(Long orderId) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (optionalOrder.isPresent()) {
@@ -39,12 +38,12 @@ public class OrderService {
         throw new RuntimeException("Order not found!");
     }
 
-    // 🔹 Get all orders for a customer
+    // Get all orders for a customer
     public List<Order> getOrdersByCustomer(User customer) {
         return orderRepository.findByCustomer(customer);
     }
 
-    // 🔹 Get all orders for a restaurant
+    // Get all orders for a restaurant
     public List<Order> getOrdersByRestaurant(Long restaurantId) {
         return orderRepository.findByRestaurantId(restaurantId);
     }

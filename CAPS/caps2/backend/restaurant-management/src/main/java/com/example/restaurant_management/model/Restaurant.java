@@ -1,5 +1,6 @@
 package com.example.restaurant_management.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ public class Restaurant {
 
     @OneToOne
     @JoinColumn(name = "user_id", unique = true, nullable = false)
-    private User owner;  // ✅ Renamed from `user` to `owner` for clarity
+    @JsonBackReference  // Prevents infinite recursion with User
+    private User owner;
+
 
     @ManyToMany
     @JoinTable(
@@ -36,14 +39,14 @@ public class Restaurant {
     @Column(nullable = false)
     private boolean active = true;  // ✅ Soft delete support
 
-    // ✅ Default Constructor
+    //  Default Constructor
     public Restaurant() {
         this.menuItems = new ArrayList<>();
         this.orders = new ArrayList<>();
         this.active = true;
     }
 
-    // ✅ Constructor with parameters
+    //  Constructor with parameters
     public Restaurant(String name, User owner) {
         this.name = name;
         this.owner = owner;
@@ -52,7 +55,7 @@ public class Restaurant {
         this.active = true;
     }
 
-    // ✅ Getters and Setters
+    //  Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -69,9 +72,9 @@ public class Restaurant {
     public void setOrders(List<Order> orders) { this.orders = orders; }
 
     public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; } // ✅ Added setter for soft delete
+    public void setActive(boolean active) { this.active = active; } 
 
-    // ✅ Override toString() for debugging
+    
     @Override
     public String toString() {
         return "Restaurant{id=" + id + ", name='" + name + "', owner=" + owner.getEmail() + ", active=" + active + "}";
