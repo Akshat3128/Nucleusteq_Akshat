@@ -1,11 +1,14 @@
 package com.example.restaurant_management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
 public class Restaurant {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,8 +17,8 @@ public class Restaurant {
     private String name;
 
     @OneToOne
-    @JoinColumn(name = "owner_id", unique = true, nullable = false)
-    private User owner;   
+    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    private User owner;  // ✅ Renamed from `user` to `owner` for clarity
 
     @ManyToMany
     @JoinTable(
@@ -23,18 +26,33 @@ public class Restaurant {
         joinColumns = @JoinColumn(name = "restaurant_id"),
         inverseJoinColumns = @JoinColumn(name = "menu_item_id")
     )
-    private List<MenuItem> menuItems;
+    @JsonIgnore
+    private List<MenuItem> menuItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Order> orders;
+    @JsonIgnore
+    private List<Order> orders = new ArrayList<>();
 
-    public Restaurant() {}
+    @Column(nullable = false)
+    private boolean active = true;  // ✅ Soft delete support
 
+    // ✅ Default Constructor
+    public Restaurant() {
+        this.menuItems = new ArrayList<>();
+        this.orders = new ArrayList<>();
+        this.active = true;
+    }
+
+    // ✅ Constructor with parameters
     public Restaurant(String name, User owner) {
         this.name = name;
         this.owner = owner;
+        this.menuItems = new ArrayList<>();
+        this.orders = new ArrayList<>();
+        this.active = true;
     }
 
+    // ✅ Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -49,4 +67,13 @@ public class Restaurant {
 
     public List<Order> getOrders() { return orders; }
     public void setOrders(List<Order> orders) { this.orders = orders; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; } // ✅ Added setter for soft delete
+
+    // ✅ Override toString() for debugging
+    @Override
+    public String toString() {
+        return "Restaurant{id=" + id + ", name='" + name + "', owner=" + owner.getEmail() + ", active=" + active + "}";
+    }
 }

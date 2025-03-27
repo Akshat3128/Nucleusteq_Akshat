@@ -1,5 +1,7 @@
 package com.example.restaurant_management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -21,6 +23,7 @@ public class User {
     private Role role;
 
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonIgnore  // 🔹 Prevents infinite recursion
     private Restaurant ownedRestaurant;  //  New field to track ownership
 
     public User() {}
