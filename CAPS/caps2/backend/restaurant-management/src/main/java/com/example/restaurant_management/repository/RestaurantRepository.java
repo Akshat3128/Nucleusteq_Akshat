@@ -9,10 +9,10 @@ import java.util.Optional;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
-    // ✅ Find a restaurant by ownerId (To ensure a single owner has only one restaurant)
+    //  Find a restaurant by ownerId (To ensure a single owner has only one restaurant)
     Optional<Restaurant> findByOwnerId(Long ownerId);
 
-    // ✅ Check if a restaurant exists by ownerId (To prevent duplicate ownership)
+    // Checking if a restaurant exists by ownerId (To prevent duplicate ownership)
     boolean existsByOwnerId(Long ownerId);
 
     

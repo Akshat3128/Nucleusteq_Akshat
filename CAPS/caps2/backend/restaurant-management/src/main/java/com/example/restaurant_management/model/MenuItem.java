@@ -1,37 +1,23 @@
 package com.example.restaurant_management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.HashSet;
-
-// import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-@Table(name = "menu_items")
 public class MenuItem {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private double price;
-
-    @Column(nullable = false)
     private String category;
-    
-    @Column(nullable = false)
     private boolean available = true;
 
-    @ManyToMany(mappedBy = "menuItems", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "menuItems")
     @JsonIgnore
     private Set<Restaurant> restaurants = new HashSet<>();
 
@@ -44,6 +30,7 @@ public class MenuItem {
         this.available = true;
     }
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

@@ -2,10 +2,7 @@ package com.example.restaurant_management.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-// import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-// import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
@@ -22,13 +19,13 @@ public class Restaurant {
     @Column(nullable = false, unique = true)
     private String name;
 
-    // ✅ A single owner can have only one restaurant
+    //  A single owner can have only one restaurant
     @OneToOne
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     @JsonBackReference
     private User owner;
 
-    // ✅ Many-to-Many relationship with MenuItem
+    //  Many-to-Many relationship with MenuItem
     @ManyToMany
     @JoinTable(
         name = "restaurant_menu_items",
@@ -38,7 +35,7 @@ public class Restaurant {
     @JsonIgnore
     private Set<MenuItem> menuItems = new HashSet<>();
 
-    // ✅ One-to-Many relationship with Orders
+    //  One-to-Many relationship with Orders
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
@@ -46,7 +43,7 @@ public class Restaurant {
     @Column(nullable = false)
     private boolean active = true;
 
-    // ✅ Constructors
+    //  Constructors
     public Restaurant() {
         this.menuItems = new HashSet<>();
         this.orders = new ArrayList<>();
@@ -61,7 +58,7 @@ public class Restaurant {
         this.active = true;
     }
 
-    // ✅ Getters & Setters
+    //  Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -80,7 +77,7 @@ public class Restaurant {
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
 
-    // ✅ Utility Methods
+    //  Utility Methods
     public void addMenuItem(MenuItem menuItem) {
         this.menuItems.add(menuItem);
     }

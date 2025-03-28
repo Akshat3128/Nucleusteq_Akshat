@@ -1,7 +1,6 @@
 package com.example.restaurant_management.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -26,12 +25,16 @@ public class User {
     @JsonIgnore  // Prevents infinite recursion
     private Restaurant ownedRestaurant;  
 
+    @Column(nullable = false)
+    private double walletBalance = 1000.0;  // Default balance on registration 
+
     public User() {}
 
     public User(String email, String password, Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.walletBalance = 1000.0; // Default credits given on signup 
     }
 
     public Long getId() { return id; }
@@ -48,4 +51,7 @@ public class User {
 
     public Restaurant getOwnedRestaurant() { return ownedRestaurant; }
     public void setOwnedRestaurant(Restaurant ownedRestaurant) { this.ownedRestaurant = ownedRestaurant; }
+
+    public double getWalletBalance() { return walletBalance; }  // Getter for wallet balance
+    public void setWalletBalance(double walletBalance) { this.walletBalance = walletBalance; }  // ✅ Setter for wallet balance
 }
