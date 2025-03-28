@@ -22,6 +22,10 @@ public class WalletTransaction {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;  // CREDIT or DEBIT
 
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = true)  // Order is optional
+    private Order order;
+
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
@@ -29,6 +33,7 @@ public class WalletTransaction {
         this.timestamp = LocalDateTime.now();
     }
 
+    // ✅ Existing constructor (Without Order)
     public WalletTransaction(User user, double amount, TransactionType transactionType) {
         this.user = user;
         this.amount = amount;
@@ -36,9 +41,20 @@ public class WalletTransaction {
         this.timestamp = LocalDateTime.now();
     }
 
+    // ✅ New Constructor (With Order)
+    public WalletTransaction(User user, double amount, TransactionType transactionType, Order order) {
+        this.user = user;
+        this.amount = amount;
+        this.transactionType = transactionType;
+        this.order = order;
+        this.timestamp = LocalDateTime.now();
+    }
+
+    // 🔹 Getters
     public Long getId() { return id; }
     public User getUser() { return user; }
     public double getAmount() { return amount; }
     public TransactionType getTransactionType() { return transactionType; }
+    public Order getOrder() { return order; }
     public LocalDateTime getTimestamp() { return timestamp; }
 }
