@@ -1,5 +1,6 @@
 package com.example.restaurant_management.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ public class MenuItem {
 
     @ManyToMany(mappedBy = "menuItems")
     @JsonIgnore
+    @JsonBackReference
     private Set<Restaurant> restaurants = new HashSet<>();
 
     public MenuItem() {}
