@@ -25,17 +25,17 @@ public class OrderController {
         this.restaurantRepository = restaurantRepository;
     }
 
-    // 📌 1️⃣ Place an Order
+    // Place an Order
     @PostMapping("/place")
     public ResponseEntity<?> placeOrder(@RequestBody OrderRequest orderRequest) {
-        // ✅ Fetch customer
+        // Fetch customer
         Optional<User> customerOpt = userRepository.findById(orderRequest.getCustomerId());
         if (customerOpt.isEmpty()) {
             return ResponseEntity.badRequest().body("Customer not found.");
         }
         User customer = customerOpt.get();
 
-        // ✅ Fetch restaurant
+        // Fetch restaurant
         Optional<Restaurant> restaurantOpt = restaurantRepository.findById(orderRequest.getRestaurantId());
         if (restaurantOpt.isEmpty()) {
             return ResponseEntity.badRequest().body("Restaurant not found.");
@@ -50,7 +50,7 @@ public class OrderController {
         }
     }
 
-    // 📌 2️⃣ Mark Order as Delivered
+    //  Mark Order as Delivered
     @PutMapping("/{orderId}/delivered")
     public ResponseEntity<?> markOrderAsDelivered(@PathVariable Long orderId) {
         try {
@@ -61,7 +61,7 @@ public class OrderController {
         }
     }
 
-    // 📌 3️⃣ Cancel an Order
+    //  Cancel an Order
     @PutMapping("/{orderId}/cancel")
     public ResponseEntity<?> markOrderAsCancelled(@PathVariable Long orderId) {
         try {
@@ -72,7 +72,7 @@ public class OrderController {
         }
     }
 
-    // 📌 4️⃣ Get Orders for a Customer
+    //  Get Orders for a Customer
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Order>> getOrdersByCustomer(@PathVariable Long customerId) {
         Optional<User> customerOpt = userRepository.findById(customerId);
@@ -83,7 +83,7 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    // 📌 5️⃣ Get Orders for a Restaurant
+    //  Get Orders for a Restaurant
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<List<Order>> getOrdersByRestaurant(@PathVariable Long restaurantId) {
         List<Order> orders = orderService.getOrdersByRestaurant(restaurantId);

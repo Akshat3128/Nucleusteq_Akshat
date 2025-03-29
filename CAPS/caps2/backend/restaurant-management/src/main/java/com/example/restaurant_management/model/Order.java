@@ -43,7 +43,7 @@ public class Order {
         this.status = OrderStatus.PENDING; // Default status
     }
 
-    // ✅ Updated Constructor to include totalPrice
+    //  Updated Constructor to include totalPrice
     public Order(User customer, Restaurant restaurant, double totalPrice, OrderStatus status) {
         this.customer = customer;
         this.restaurant = restaurant;
@@ -71,7 +71,7 @@ public class Order {
     public OrderStatus getStatus() { return status; }
     public void setStatus(OrderStatus status) { this.status = status; }
 
-    // ✅ Added missing getter for `orderItems`
+    
     public List<OrderItem> getOrderItems() { return orderItems; }
     public void setOrderItems(List<OrderItem> orderItems) { this.orderItems = orderItems; }
 }
