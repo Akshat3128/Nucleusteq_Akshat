@@ -26,6 +26,25 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         @Param("cancelled") OrderStatus cancelled
     );
 
+    @Query("SELECT o FROM Order o WHERE  o.status NOT IN (:delivered, :cancelled)")
+    List<Order> findActiveOrders(
+        @Param("delivered") OrderStatus delivered, 
+        @Param("cancelled") OrderStatus cancelled
+    );
+
+    @Query("SELECT o FROM Order o WHERE o.customer.id = :customerId AND o.status NOT IN (:delivered, :cancelled)")
+    Order findActiveOrdersById(
+        @Param("customerId") Long customerId,
+        @Param("delivered") OrderStatus delivered, 
+        @Param("cancelled") OrderStatus cancelled
+    );
+    @Query("SELECT o FROM Order o WHERE o.id = :orderId ORDER BY o.orderTime DESC")
+    List<Order> findByOrderIdSorted(@Param("orderId") Long orderId);
+
     // `orderTime` to take note of order creation time
     Optional<Order> findTopByCustomerOrderByOrderTimeDesc(User customer);
+    
+    List<Order> findByCustomerAndStatus(User customer, OrderStatus status);
+
 }
+
