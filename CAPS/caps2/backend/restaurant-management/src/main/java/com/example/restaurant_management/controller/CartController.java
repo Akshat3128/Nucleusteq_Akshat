@@ -19,7 +19,7 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    // ✅ Add item to cart
+    //  Add item to cart
     @PostMapping("/add")
     public ResponseEntity<?> addItemToCart(@RequestBody CartRequest request) {
         try {
@@ -33,7 +33,7 @@ public class CartController {
         }
     }
 
-    // ✅ Remove item from cart
+    //  Remove item from cart
     @DeleteMapping("/remove")
     public ResponseEntity<?> removeItemFromCart(@RequestBody UpdateCartItemRequest request) {
         try {
@@ -47,7 +47,7 @@ public class CartController {
         }
     }
 
-    // ✅ Update item quantity in cart
+    //  Update item quantity in cart
     @PutMapping("/update")
     public ResponseEntity<?> updateCartItemQuantity(@RequestBody UpdateCartItemRequest request) {
         try {
@@ -56,17 +56,19 @@ public class CartController {
 
             Cart updatedCart = cartService.updateCartItemQuantity(user, request.getMenuItemId(), request.getQuantity());
             return ResponseEntity.ok(updatedCart);
-        } catch (Exception e) {
+        } catch (RuntimeException e) { 
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("An error occurred while updating cart item quantity.");
         }
     }
 
-    // ✅ Get cart by customer (Uses DTO)
-    @GetMapping("/view")
-    public ResponseEntity<?> getCart(@RequestBody UpdateCartItemRequest request) {
+    //  Get cart by customer (Uses DTO)
+    @GetMapping("/view/{userId}")  
+    public ResponseEntity<?> getCart(@PathVariable Long userId) {
         try {
             User user = new User();
-            user.setId(request.getUserId());
+            user.setId(userId);
 
             CartResponse cartResponse = cartService.getCartByCustomer(user);
             return ResponseEntity.ok(cartResponse);
@@ -75,8 +77,7 @@ public class CartController {
         }
     }
 
-
-    // ✅ Clear cart
+    // Clear cart
     @DeleteMapping("/clear")
     public ResponseEntity<?> clearCart(@RequestBody UpdateCartItemRequest request) {
         try {

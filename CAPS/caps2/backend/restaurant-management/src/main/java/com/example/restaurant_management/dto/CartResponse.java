@@ -1,5 +1,6 @@
 package com.example.restaurant_management.dto;
 
+import com.example.restaurant_management.model.Cart;
 import com.example.restaurant_management.model.CartItem;
 import java.util.Set;
 
@@ -39,4 +40,12 @@ public class CartResponse {
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
     }
+
+    public Cart toCartEntity() {
+        Cart cart = new Cart();
+        cart.setId(this.cartId);
+        cart.setCartItems(this.cartItems); 
+        return cart;
+    }
+
 }

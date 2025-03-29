@@ -4,7 +4,7 @@ import com.example.restaurant_management.model.*;
 import com.example.restaurant_management.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Set;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,52 +17,81 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final UserRepository userRepository;
     private final WalletTransactionRepository walletTransactionRepository;
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
 
     public OrderService(OrderRepository orderRepository, 
                         OrderItemRepository orderItemRepository,
                         UserRepository userRepository, 
-                        WalletTransactionRepository walletTransactionRepository) {
+                        WalletTransactionRepository walletTransactionRepository,
+                        CartRepository cartRepository,
+                        CartItemRepository cartItemRepository) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
         this.userRepository = userRepository;
         this.walletTransactionRepository = walletTransactionRepository;
+        this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
-    //  Place an Order (Ensures no duplicate pending orders)
     @Transactional
-    public Order placeOrder(User customer, Restaurant restaurant, List<MenuItem> items, double totalPrice) {
-        boolean hasPending = orderRepository.hasPendingOrders(customer.getId(), OrderStatus.DELIVERED, OrderStatus.CANCELLED);
+    public Order placeOrderFromCart(User customer) {
+        // Check existing pending orders
+        boolean hasPending = orderRepository.hasPendingOrders(
+                customer.getId(), OrderStatus.DELIVERED, OrderStatus.CANCELLED);
         if (hasPending) {
-            throw new RuntimeException("You cannot place a new order until the previous order is delivered or canceled.");
+            throw new RuntimeException("Complete or cancel your pending order before placing a new one.");
         }
 
-        if (customer.getWalletBalance() < totalPrice) {
+        // Fetch cart
+        Cart cart = cartRepository.findByCustomer(customer)
+                .orElseThrow(() -> new RuntimeException("Cart is empty!"));
+
+        Set<CartItem> cartItems = cart.getCartItems();
+        if (cartItems.isEmpty()) {
+            throw new RuntimeException("Cart is empty! Add items before placing an order.");
+        }
+
+        double totalAmount = cartItems.stream()
+                .mapToDouble(item -> item.getQuantity() * item.getPrice()) // 🔥 Fixed here
+                .sum();
+
+        //  Check wallet balance
+        if (customer.getWalletBalance() < totalAmount) {
             throw new RuntimeException("Insufficient wallet balance.");
         }
 
-        customer.setWalletBalance(customer.getWalletBalance() - totalPrice);
+        //  Deduct wallet balance
+        customer.setWalletBalance(customer.getWalletBalance() - totalAmount);
         userRepository.save(customer);
 
-        Order newOrder = new Order(customer, restaurant, totalPrice, OrderStatus.PENDING);
-        Order savedOrder = orderRepository.save(newOrder);
+        //  Create new order
+        Order order = new Order(customer, cart.getRestaurant(), totalAmount, OrderStatus.PENDING);
+        Order savedOrder = orderRepository.save(order);
 
-        List<OrderItem> orderItems = items.stream().map(menuItem -> {
+        // Convert cart items to order items
+        List<OrderItem> orderItems = cartItems.stream().map(cartItem -> {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(savedOrder);
-            orderItem.setMenuItem(menuItem);
-            orderItem.setPrice(menuItem.getPrice());
-            orderItem.setQuantity(1);
+            orderItem.setMenuItem(cartItem.getMenuItem());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice(cartItem.getPrice()); // 🔥 Fixed here
             return orderItem;
         }).collect(Collectors.toList());
 
         orderItemRepository.saveAll(orderItems);
         savedOrder.setOrderItems(orderItems);
 
-        WalletTransaction transaction = new WalletTransaction(customer, -totalPrice, TransactionType.DEBIT, savedOrder);
+        //  Save transaction & clear cart
+        WalletTransaction transaction = new WalletTransaction(customer, -totalAmount, TransactionType.DEBIT, savedOrder);
         walletTransactionRepository.save(transaction);
+
+        cartItemRepository.deleteAll(cartItems);
+        cartRepository.delete(cart);
 
         return savedOrder;
     }
+
 
     //  Mark an order as delivered
     // @Transactional
