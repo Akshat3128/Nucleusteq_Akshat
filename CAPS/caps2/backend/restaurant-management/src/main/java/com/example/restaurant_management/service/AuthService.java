@@ -1,12 +1,15 @@
 package com.example.restaurant_management.service;
 
-import com.example.restaurant_management.model.Role;
 import com.example.restaurant_management.model.User;
+import com.example.restaurant_management.model.Role;
+// import com.example.restaurant_management.model.Restaurant;
 import com.example.restaurant_management.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class AuthService {
@@ -35,14 +38,24 @@ public class AuthService {
 
         // Hashing password before saving
         String encodedPassword = passwordEncoder.encode(password);
-        
+
         User user = new User(email, encodedPassword, userRole);
         return userRepository.save(user);
     }
 
-    // 🔹 Authenticate user with email & password (Basic Login)
-    public boolean authenticateUser(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-        return user.isPresent() && passwordEncoder.matches(password, user.get().getPassword());
+    public Map<String, Object> authenticateUser(String email, String password) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
+            User user = userOptional.get();
+            Map<String, Object> result = new HashMap<>();
+            result.put("user", user);
+            if (user.getRole() == Role.RESTAURANT_OWNER && user.getOwnedRestaurant() != null) {
+                result.put("restaurantId", user.getOwnedRestaurant().getId());
+            }
+            return result;
+        }
+        return null;
     }
+
+
 }
