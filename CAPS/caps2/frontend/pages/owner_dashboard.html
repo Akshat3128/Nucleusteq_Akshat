@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Owner Dashboard</title>
+    <link rel="stylesheet" href="../css/owner-dashboard.css">
+</head>
+<body>
+
+    <div>
+        <nav class="navbar">
+            <div class="logo">🍽️ RestoManager</div>
+            <ul class="nav-links">
+                <li><a href="owner_dashboard.html">🏠 Home</a></li>
+                <li><a href="#" id="orders-tab" onclick="showTab('order-tracking')">📋 Orders</a></li>
+                <li><a href="#" id="inventory-tab" onclick="showTab('menu-management')">📦 Inventory</a></li>
+                <!-- <li><a href="#">📊 Reports</a></li> -->
+                <li ><a href="#" id="settings-tab">⚙️ Settings</a></li>
+            </ul>
+            <button id="logout-btn" class="btn logout">🔸 Logout</button>
+        </nav>
+    
+        <!-- Dashboard Container -->
+        <div class="dashboard-container">
+            <h1>🍽️ Restaurant Owner Dashboard</h1>
+    
+            <div class="restaurant-info">
+                <h2>🏢 Your Restaurant</h2>
+                <p><strong>Name:</strong> <span id="restaurant-name">New Pizza Palace</span></p>
+                <p><strong>Status:</strong> <span id="restaurant-status" class="closed">🔴 Closed</span></p>
+            </div>
+    
+            <!-- Order Tracking Section (Initially Hidden) -->
+            <div id="order-tracking" class="tab-content">
+                <h2>📋 Order Tracking</h2>
+                <table id="orderTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Order Time</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderList"></tbody>
+                </table>
+            </div>
+    
+            <!-- Menu Management (Default Visible) -->
+            <div id="menu-management" class="tab-content active">
+                <h2>📜 Menu Management</h2>
+                <div id="menu-container" class="menu-items">
+                    <!-- <p>Mushroom Pizza - 15.00</p>
+                    <p>Margherita Pizza - 20.00</p> -->
+                </div>
+    
+                <button id="add-item-btn" class="btn add-item">➕ Add New Item</button>
+    
+                <div id="menu-form-container" class="create-menu" style="display: none;">
+                    <h3>📝 Create a New Menu Item</h3>
+                    <input id="item-name" type="text" placeholder="Item Name">
+                    <input id="item-price" type="number" placeholder="Price">
+                    <select id="item-category">
+                        <option value="Pizza">Pizza</option>
+                        <option value="Drinks">Drinks</option>
+                        <option value="Dessert">Dessert</option>
+                    </select>
+                    <label>
+                        <input id="item-available" type="checkbox" checked> Available
+                    </label>
+                    <div class="btn-group">
+                        <button id="create-menu-btn" class="btn create">✅ Create & Add</button>
+                        <button id="cancel-form-btn" class="btn cancel">❌ Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings-popup" class="popup">
+                <div class="popup-content">
+                    <span class="close-btn" onclick="closePopup()">&times;</span>
+                    <h2 id="popup-title">⚙️ Settings</h2>
+                    <div id="popup-body">
+                        <!-- Content will be dynamically injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+    <script src="../js/owner-dashboard.js"></script>
+    
+</body>
+</html>

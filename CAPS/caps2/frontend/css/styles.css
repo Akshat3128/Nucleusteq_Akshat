@@ -1,0 +1,348 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Times New Roman", Times, serif;
+    
+}
+
+/* 🌟 Light Mode (Default) */
+:root {
+    --bg-color: #F5F5F5;
+    --text-color: #333333;
+    --primary-color: #072754;
+    --accent-color: #29C3A3;
+    --button-gradient: linear-gradient(to right, #3A7BD5, #29C3A3);
+    --card-bg: white;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+    /* ✅ Responsive Font Sizing */
+    --base-font-size: 1rem; /* Default 16px */
+    --heading-font-size: 2rem;
+    --subheading-font-size: 1.5rem;
+    --text-font-size: 1.125rem;
+}
+
+/* 🌙 Dark Mode */
+.dark-mode {
+    --bg-color: #121212;
+    --text-color: #EAEAEA;
+    --primary-color: #063f60;
+    --accent-color: #00C9A7;
+    --button-gradient: linear-gradient(to right, #00A3FF, #00C9A7);
+    --card-bg: #1E1E1E;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ✅ Apply Theme */
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--base-font-size);
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ✅ Navbar */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    background: var(--primary-color);
+    color: white;
+    transition: background 0.3s ease;
+    position: relative;
+}
+header .logo {
+    font-size: 1.8rem; /* 28px */
+    font-weight: bold;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+}
+nav ul li {
+    margin: 0 1.2rem;
+}
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.125rem; /* 18px */
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+nav ul li a:hover {
+    color: var(--accent-color);
+}
+.menu-toggle {
+    display: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--primary-color);
+        padding: 1rem 0;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+
+    nav ul li {
+        text-align: center;
+        padding: 0.8rem 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+
+
+/* ✅ Hero Section */
+.hero {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: url('../assets/images/hero-bg.jpg') no-repeat center center/cover;
+}
+.hero h1 {
+    font-size: var(--heading-font-size); /* 32px */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.hero p {
+    font-size: var(--text-font-size); /* 18px */
+    margin-top: 0.8rem;
+}
+.hero .btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    max-width: fit-content;
+    font-size: 1.25rem; /* 20px */
+    background: var(--button-gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hero .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px var(--shadow-color);
+}
+
+/* ✅ Featured Restaurants */
+.featured {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+.featured h2 {
+    font-size: var(--subheading-font-size); /* 24px */
+}
+.restaurant-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.restaurant-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    text-align: center;
+    width: 16rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.restaurant-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px var(--shadow-color);
+}
+.restaurant-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+.restaurant-card h3 {
+    margin-top: 0.8rem;
+    font-size: 1.4rem; /* 22px */
+}
+
+/* ✅ How It Works */
+.how-it-works {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--card-bg);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+.how-it-works h2 {
+    font-size: var(--subheading-font-size); /* 24px */
+}
+.steps {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+.step {
+    width: 12rem;
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.step:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px var(--shadow-color);
+}
+.step h3 {
+    font-size: 1.25rem; /* 20px */
+}
+
+/* ✅ Footer */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    transition: background 0.3s ease;
+}
+footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+footer a:hover {
+    color: white;
+}
+@media (max-width: 768px) {
+    .hero {
+        padding: 4rem 1rem;
+    }
+
+    .restaurant-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .steps {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+/* ✅ Dark Mode Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 5rem;
+    right: 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+.theme-toggle:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+}
+
+
+
+
+
+/* ✅ Auth Page Styles */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: var(--bg-color);
+}
+
+.auth-box {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    text-align: center;
+    width: 350px;
+}
+
+.auth-box h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 1.2rem;
+}
+
+.input-group label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid var(--text-color);
+    border-radius: 5px;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.btn {
+    width: 100%;
+    padding: 0.9rem;
+    font-size: 1.1rem;
+    background: var(--button-gradient);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px var(--shadow-color);
+}
+
+.switch-auth {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.switch-auth a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.switch-auth a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* register page */

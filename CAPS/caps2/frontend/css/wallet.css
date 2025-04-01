@@ -1,0 +1,72 @@
+body {
+    font-family: 'Times New Roman', serif;
+    background-color: #1e1e2e;
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+header {
+    background-color: #292b3a;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-btn {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+}
+
+.wallet-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #3b3f51, #1e1e2e);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.balance {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.actions input {
+    padding: 10px;
+    width: 150px;
+    margin-right: 10px;
+}
+
+.actions button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.transactions {
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
+    padding: 10px;
+    background: #292b3a;
+    border-radius: 5px;
+}
+
+.transaction-item {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.credit {
+    color: #00ff00;
+}
+
+.debit {
+    color: #ff4444;
+}

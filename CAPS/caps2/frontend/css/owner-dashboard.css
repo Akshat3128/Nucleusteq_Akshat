@@ -1,0 +1,270 @@
+/* General Styles */
+body {
+    font-family: 'Times New Roman', Times, serif, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: large;
+    box-sizing: border-box;
+    background: var(--gradient);
+    color: var(--text-color);
+}
+
+/* Theme Colors */
+:root {
+    --primary-color: #020a13; /* Deep Blue */
+    --secondary-color: #021426;
+    --gradient: linear-gradient(135deg, #032446, #052647);
+    --text-color: #ffffff;
+    --bg-color: #052647;
+}
+
+.dark-theme {
+    --primary-color: #121212;
+    --secondary-color: #1e1e1e;
+    --gradient: linear-gradient(135deg, #000000, #333333);
+    --text-color: #f4f4f4;
+    --bg-color: #222222;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    width: 85%;
+    margin: auto;
+    padding: 25px;
+    background: var(--secondary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-top: 25px;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-color);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Logout Button */
+.logout {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Tabs Styling */
+.tab-content {
+    display: none;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 8px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Restaurant Info */
+.restaurant-info {
+    background: #ecf0f1;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.restaurant-info h2 {
+    font-size: 24px;
+}
+
+/* Order Tracking */
+#order-tracking {
+    overflow-x: auto;
+    max-height: 500px;
+    padding: 15px;
+    border-radius: 10px;
+    background: white;
+    color: black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 18px;
+}
+
+th, td {
+    padding: 14px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Menu Management */
+#menu-management {
+    padding: 25px;
+}
+
+.menu-items {
+    padding: 15px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    font-size: 20px;
+    color: black;
+}
+
+.add-item {
+    background: #3498db;
+    color: white;
+    margin-top: 10px;
+}
+
+.create-menu {
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+/* Button Group */
+.btn-group {
+    display: flex;
+    gap: 15px;
+}
+
+.create {
+    background: #27ae60;
+    color: white;
+}
+
+.cancel {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-container {
+        width: 95%;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+/* Popup Styling */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--secondary-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    width: 35rem;
+    height: 20rem;
+    z-index: 1000;
+    max-height: 25rem;
+}
+
+.popup-content {
+    text-align: center;
+    font-size: larger;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: large;
+    cursor: pointer;
+}
+
+.input-field {
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn.create {
+    background-color: green;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: large;
+}
+
+.btn.delete {
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: larger;
+    height: 15rem;
+}
