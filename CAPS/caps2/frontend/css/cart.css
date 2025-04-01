@@ -1,0 +1,124 @@
+/* General Styles */
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-align: center;
+    font-size: large;
+}
+
+/* Cart Container with Glassmorphism */
+#cart-container {
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#cart-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Cart Title */
+#cart-container h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #1db954;
+}
+
+/* Wallet Balance */
+#wallet-balance {
+    font-size: 1.2rem;
+    color: #facc15;
+}
+
+/* Cart Item */
+.cart-item {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 12px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cart-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Cart Item Text */
+.cart-item h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.cart-item p {
+    font-size: 1.1rem;
+    color: #d4d4d4;
+}
+
+/* Remove Button */
+.remove-btn {
+    background: #ff3b3b;
+    color: white;
+    padding: 6px 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.remove-btn:hover {
+    background: #e32a2a;
+    transform: scale(1.05);
+}
+
+/* Checkout Button */
+#checkout-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 1.3rem;
+    background: #1db954;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 255, 135, 0.4);
+}
+
+#checkout-btn:hover {
+    background: #17a44b;
+    box-shadow: 0 5px 15px rgba(0, 255, 135, 0.6);
+    transform: translateY(-3px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .remove-btn {
+        margin-top: 5px;
+    }
+
+    #checkout-btn {
+        font-size: 1.1rem;
+    }
+}

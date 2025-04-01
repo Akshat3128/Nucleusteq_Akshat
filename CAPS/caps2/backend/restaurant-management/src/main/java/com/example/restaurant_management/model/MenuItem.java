@@ -1,12 +1,12 @@
 package com.example.restaurant_management.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "menu_item")
 public class MenuItem {
 
     @Id
@@ -19,7 +19,6 @@ public class MenuItem {
     private boolean available = true;
 
     @ManyToMany(mappedBy = "menuItems")
-    @JsonIgnore
     @JsonBackReference
     private Set<Restaurant> restaurants = new HashSet<>();
 

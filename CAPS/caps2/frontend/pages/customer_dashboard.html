@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard | RestoHub</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <h2>RestoHub</h2>
+            <nav>
+                <a href="#" class="active">🏠 Dashboard</a>
+                <a href="#" id="browse-restaurants">🍽️ Browse Restaurants</a>
+                <a href="cart.html">🛒 Cart</a>
+                <!-- <a href="orders.html">📦 Order Tracking</a> -->
+                <a href="wallet.html">💰 Wallet</a>
+                <a href="#" id="logout-btn">🚪 Logout</a>
+            </nav>
+            <!-- <button id="theme-toggle">Dark Mode</button> -->
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <h1>Welcome, <span id="user-name">User</span> 👋</h1>
+            </header>
+
+            <section class="overview">
+                <div class="wallet-card">
+                    <h2>💰 Wallet Balance</h2>
+                    <p><span id="wallet-balance">Loading...</span> Credits</p>
+                </div>
+
+                <div class="quick-actions">
+                    <a href="#" id="toggle-orders" class="action-btn">📦 Show Orders</a>
+                </div>
+            </section>
+
+            <!-- Dynamic Content Section -->
+            <section id="dynamic-content">
+                <h2>📦 Recent Orders</h2>
+                <div id="orders-container">
+                    <p>Loading orders...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/customer_dashboard.js"></script>
+</body>
+</html>

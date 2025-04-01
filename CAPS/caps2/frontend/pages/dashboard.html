@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard | RestoHub</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <h2>RestoHub</h2>
+            <nav>
+                <a href="#" class="active">🏠 Dashboard</a>
+                <a href="restaurant.html">🍽️ Browse Restaurants</a>
+                <a href="cart.html">🛒 Cart</a>
+                <a href="orders.html">📦 Order Tracking</a>
+                <a href="wallet.html">💰 Wallet</a>
+                <a href="#" id="logout-btn">🚪 Logout</a>
+            </nav>
+            <button id="theme-toggle">Dark Mode</button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <h1>Welcome, <span id="user-name">User</span> 👋</h1>
+            </header>
+
+            <section class="overview">
+                <div class="wallet-card">
+                    <h2>💰 Wallet Balance</h2>
+                    <p><span id="wallet-balance">Loading...</span> Credits</p>
+                </div>
+
+                <div class="quick-actions">
+                    <a href="restaurant.html" class="action-btn">🍽️ Browse Restaurants</a>
+                    <a href="cart.html" class="action-btn">🛒 View Cart</a>
+                </div>
+            </section>
+
+            <!-- Restaurant Listing -->
+            <section class="restaurant-list">
+                <h2>🍽️ Restaurants</h2>
+                <div id="restaurant-container">
+                    <p>Loading restaurants...</p>
+                </div>
+            </section>
+
+            <section class="recent-orders">
+                <h2>📦 Recent Orders</h2>
+                <div id="orders-container">
+                    <p>Loading orders...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "java.format.settings.url": "eclipse-formatter.xml"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.format.settings.url": "eclipse-formatter.xml",
+
+    "liveServer.settings.root": "/CAPS/caps2/frontend"
 }

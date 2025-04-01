@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
-@Table(name = "restaurants")
+@Table(name = "restaurant")
 public class Restaurant {
 
     @Id
@@ -19,31 +19,31 @@ public class Restaurant {
     @Column(nullable = false, unique = true)
     private String name;
 
-    //  A single owner can have only one restaurant
+    // A single owner can have only one restaurant
     @OneToOne
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     @JsonBackReference
     private User owner;
 
-    //  Many-to-Many relationship with MenuItem
+    // Many-to-Many relationship with MenuItem
     @ManyToMany
     @JoinTable(
-        name = "restaurant_menu_items",
+        name = "restaurant_menu_item",
         joinColumns = @JoinColumn(name = "restaurant_id"),
         inverseJoinColumns = @JoinColumn(name = "menu_item_id")
     )
-    @JsonIgnore
-    private Set<MenuItem> menuItems = new HashSet<>();
+    @JsonIgnore    
+    private Set<MenuItem> menuItems;
 
-    //  One-to-Many relationship with Orders
+    // One-to-Many relationship with Orders
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders;
 
     @Column(nullable = false)
     private boolean active = true;
 
-    //  Constructors
+    // Constructors
     public Restaurant() {
         this.menuItems = new HashSet<>();
         this.orders = new ArrayList<>();
@@ -58,7 +58,7 @@ public class Restaurant {
         this.active = true;
     }
 
-    //  Getters & Setters
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -77,7 +77,7 @@ public class Restaurant {
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
 
-    //  Utility Methods
+    // Utility Methods
     public void addMenuItem(MenuItem menuItem) {
         this.menuItems.add(menuItem);
     }

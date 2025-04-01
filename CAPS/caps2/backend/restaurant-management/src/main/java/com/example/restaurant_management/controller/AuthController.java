@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/auth")
@@ -40,12 +41,20 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         try {
-            boolean authenticated = authService.authenticateUser(request.get("email"), request.get("password"));
-            if (authenticated) {
-                return ResponseEntity.ok(Map.of(
-                    "message", "Login successful!",
-                    "email", request.get("email")
-                ));
+            Map<String, Object> authResult = authService.authenticateUser(request.get("email"), request.get("password"));
+            if (authResult != null) {
+                User authenticatedUser = (User) authResult.get("user");
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Login successful!");
+                response.put("userId", authenticatedUser.getId());
+                response.put("role", authenticatedUser.getRole());
+                response.put("email", authenticatedUser.getEmail());
+
+                if (authResult.containsKey("restaurantId")) {
+                    response.put("restaurantId", authResult.get("restaurantId"));
+                }
+
+                return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(401).body(Map.of(
                     "error", "Invalid credentials!",
@@ -59,4 +68,6 @@ public class AuthController {
             ));
         }
     }
+
+
 }

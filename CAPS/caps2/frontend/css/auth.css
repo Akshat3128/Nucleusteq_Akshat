@@ -1,0 +1,143 @@
+/* General Styling */
+body {
+    font-family: 'Times New Roman', Times, serif "Poppins", sans-serif;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Container */
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Scale effect on hover */
+.auth-container:hover {
+    transform: scale(1.03);
+}
+
+/* Heading */
+.auth-container h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: xx-large;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Inputs */
+.auth-container input,
+.auth-container select {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    font-size: large;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input Hover & Focus */
+.auth-container input:hover,
+.auth-container select:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3 ease-in-out; 
+}
+
+.auth-container input:focus,
+.auth-container select:focus {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+    color: black;
+    font-size: large;
+}
+
+/* Button */
+.auth-container button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(90deg, #ff9800, #ff5722);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+}
+
+/* Button Hover */
+.auth-container button:hover {
+    background: linear-gradient(90deg, #ff5722, #ff9800);
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(255, 87, 34, 0.6);
+}
+
+/* Links */
+.auth-container p {
+    color: white;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.auth-container a {
+    color: #ffca28;
+    text-decoration: none;
+    font-size: medium;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+    color: #ffc107;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px;
+        max-width: 90%;
+    }
+    
+    .auth-container h2 {
+        font-size: 24px;
+    }
+
+    .auth-container input,
+    .auth-container select,
+    .auth-container button {
+        font-size: 16px;
+    }
+}
+
