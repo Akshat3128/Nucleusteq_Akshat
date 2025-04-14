@@ -85,15 +85,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    // document.getElementsByClassName("home-btn").addEventListener("click", function () {
-    //     const user = localStorage.getItem("userId"); // Assuming you store user data in localStorage
-    
-    //     if (user) {
-    //         window.location.href = "customer_dashboard.html"; // Go to Cart Page
-    //     } else {
-    //         window.location.href = "index.html"; // Redirect to Login Page
-    //     }
-    // });
+
     
 
 });

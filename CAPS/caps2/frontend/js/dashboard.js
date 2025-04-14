@@ -14,8 +14,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
 
-    userNameSpan.textContent = userEmail.split('@')[0]; // Display username
-
+    userNameSpan.textContent = userEmail.split('@')[0]; 
     // Fetch Wallet Balance
     async function fetchWalletBalance() {
         try {

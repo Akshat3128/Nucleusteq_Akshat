@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Sample restaurant data (Replace with API fetch later)
     const restaurants = [
-        { name: "Spicy Bites", image: "../assets/images/spicy-bites.jpg", rating: "4.5" },
-        { name: "Tandoori Delight", image: "../assets/images/tandoori-delight.jpg", rating: "4.7" },
-        { name: "Gourmet Haven", image: "../assets/images/gourmet-haven.jpg", rating: "4.6" },
-        { name: "Pizza Palace", image: "../assets/images/pizza-palace.jpg", rating: "4.4" }
+        { name: "Spicy Bites",  rating: "4.5" },
+        { name: "Tandoori Delight", rating: "4.7" },
+        { name: "Gourmet Haven",  rating: "4.6" },
+        { name: "Pizza Palace",  rating: "4.4" }
     ];
 
     function loadRestaurants() {

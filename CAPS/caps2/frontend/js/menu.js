@@ -5,19 +5,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const cartCount = document.getElementById("cart-count");
     const themeToggle = document.getElementById("theme-toggle");
 
-    if (!menuContainer) console.error("❌ menu-container not found!");
-    if (!cartCount) console.error("❌ cart-count not found!");
-    // if (!themeToggle) console.error("❌ theme-toggle not found!");
+    if (!menuContainer) console.error(" menu-container not found!");
+    if (!cartCount) console.error(" cart-count not found!");
+    
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // function updateCartCount() {
-    //     cartCount.textContent = `🛒 ${cart.length}`;
-    // }
+
 
     async function fetchMenu() {
         try {
-            console.log("🔥 Fetching menu...");
+            console.log(" Fetching menu...");
             const urlParams = new URLSearchParams(window.location.search);
             const restaurantId = urlParams.get("id") ;
             
@@ -26,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) throw new Error("Failed to fetch menu");
 
             const menuItems = await response.json();
-            console.log("✅ Menu fetched:", menuItems);
+            console.log(" Menu fetched:", menuItems);
 
             displayMenu(menuItems);
         } catch (error) {
-            console.error("❌ Error fetching menu:", error);
+            console.error(" Error fetching menu:", error);
             menuContainer.innerHTML = "<p>Failed to load menu items.</p>";
         }
     }
@@ -197,19 +195,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Theme Toggle
-    // let darkMode = localStorage.getItem("darkMode") === "true";
 
-    // // function applyTheme() {
-    //     document.body.classList.toggle("light-mode", !darkMode);
-    //     themeToggle.textContent = darkMode ? "Light Mode" : "Dark Mode";
-    // }
 
-    themeToggle?.addEventListener("click", function () {
-        darkMode = !darkMode;
-        localStorage.setItem("darkMode", darkMode);
-        applyTheme();
-    });
 
     // carticon funtionality
     document.getElementById("cart-count").addEventListener("click", function () {

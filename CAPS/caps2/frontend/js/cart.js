@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const userId = localStorage.getItem("userId") ;  // Replace with dynamic user ID
+    const userId = localStorage.getItem("userId") ;  
     const cartContainer = document.getElementById("cart-container");
     const walletBalanceSpan = document.getElementById("wallet-balance");
     const checkoutBtn = document.getElementById("checkout-btn");
