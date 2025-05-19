@@ -37,7 +37,7 @@ public class User {
         this.role = role;
         this.walletBalance = 1000.0; // Default credits given on signup 
     }
-
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

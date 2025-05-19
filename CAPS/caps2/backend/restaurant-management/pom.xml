@@ -51,7 +51,7 @@
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.2.0.Final</version>  <!-- ✅ Stable version -->
+			<version>6.2.0.Final</version>  <!-- Stable version -->
 		</dependency>
 
 		

@@ -5,6 +5,7 @@
     box-sizing: border-box;
     font-family: 'Times New Roman', sans-serif;
     font-size: large;
+    overflow: auto;
 }
 
 body {
@@ -172,6 +173,7 @@ header h1 {
     margin: 10px 0;
     transition: 0.3s;
     text-align: center;
+    overflow: hidden;
 }
 
 .order:hover {
@@ -204,6 +206,7 @@ header h1 {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: auto;
 }
 
 /* Order Container */
@@ -214,7 +217,7 @@ header h1 {
     padding: 10px;
     max-height: 700px; /* Prevent overflow */
     max-width: auto;
-    overflow-y: auto; /* Add scrolling */
+    overflow-y: scroll; /* Add scrolling */
 }
 
 /* Individual Order */

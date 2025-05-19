@@ -53,7 +53,7 @@ public class OrderService {
         }
 
         double totalAmount = cartItems.stream()
-                .mapToDouble(item -> item.getQuantity() * item.getPrice()) // 🔥 Fixed here
+                .mapToDouble(item -> item.getQuantity() * item.getPrice())  
                 .sum();
 
         //  Check wallet balance

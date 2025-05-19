@@ -63,7 +63,7 @@ public class CartController {
         }
     }
 
-    //  Get cart by customer (Uses DTO)
+    //  Get cart by customer 
     @GetMapping("/view/{userId}")  
     public ResponseEntity<?> getCart(@PathVariable Long userId) {
         try {

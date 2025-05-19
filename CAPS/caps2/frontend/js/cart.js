@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
             const result = await response.json();
 
-            if (result.status == "SUCCESS") {
+            if (result.status == "PENDING") {
                 alert("Order placed successfully!");
                 fetchCart();
                 fetchWalletBalance();
@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 alert("Checkout failed. Previous Order Pending. Try again!");
             }
         } catch (error) {
+            alert("Checkout Failed! . Previous Order Pending. Try again! ");
             console.error("Error during checkout:", error);
         }
     }

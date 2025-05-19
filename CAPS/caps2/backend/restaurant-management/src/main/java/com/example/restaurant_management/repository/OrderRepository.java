@@ -38,6 +38,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         @Param("delivered") OrderStatus delivered, 
         @Param("cancelled") OrderStatus cancelled
     );
+    
     @Query("SELECT o FROM Order o WHERE o.id = :orderId ORDER BY o.orderTime DESC")
     List<Order> findByOrderIdSorted(@Param("orderId") Long orderId);
 
