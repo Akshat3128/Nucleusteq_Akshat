@@ -1,0 +1,91 @@
+:root {
+  --primary: #2f27d5;
+  --secondary: #080a89;
+  --danger: #ef4444;
+  --success: #10b981;
+  --bg-gradient: linear-gradient(to right, #090b6b, #4f46e5);
+  --text: #1f2937;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg-gradient);
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+}
+
+.container {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+input {
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid #d1d5db;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+button {
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: var(--secondary);
+}
+
+/* Toast styling */
+.toast {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  background-color: var(--success);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: bold;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 1000;
+}
+
+.toast.error {
+  background-color: var(--danger);
+}
